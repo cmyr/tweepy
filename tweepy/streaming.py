@@ -17,7 +17,7 @@ from tweepy.error import TweepError
 from tweepy.utils import import_simplejson
 json = import_simplejson()
 
-STREAM_VERSION = 1
+STREAM_VERSION = 1.1
 
 
 class StreamListener(object):
@@ -214,18 +214,22 @@ class Stream(object):
         self.parameters = {'delimited': 'length'}
         if self.running:
             raise TweepError('Stream object already connected!')
-        self.url = '/%i/statuses/retweet.json?delimited=length' % STREAM_VERSION
+        self.url = '/%i/statuses/retweet.json?delimited=length' % str(STREAM_VERSION)
         self._start(async)
 
     def sample(self, count=None, async=False, languages=None):
         self.parameters = {'delimited': 'length'}
-        if languages:
-            self.parameters['language'] = ','.join(languages)
+        # if languages:
+            # self.parameters['language'] = ','.join(languages)
         if self.running:
             raise TweepError('Stream object already connected!')
-        self.url = '/%i/statuses/sample.json?delimited=length' % STREAM_VERSION
+        self.url = '/%s/statuses/sample.json?delimited=length' % str(STREAM_VERSION)
         if count:
             self.url += '&count=%s' % count
+        if languages:
+            self.url += '&language=%s' % ','.join(languages)
+
+        print(self.url)
         self._start(async)
 
     def filter(self, follow=None, track=None, async=False, locations=None, count = None):
