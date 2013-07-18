@@ -226,8 +226,8 @@ class Stream(object):
         self.url = '/%s/statuses/sample.json?delimited=length' % str(STREAM_VERSION)
         if count:
             self.url += '&count=%s' % count
-        if languages:
-            self.url += '&language=%s' % ','.join(languages)
+        # if languages:
+        #     self.url += '&language=%s' % ','.join(languages)
 
         print(self.url)
         self._start(async)
